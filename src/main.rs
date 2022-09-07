@@ -20,13 +20,16 @@ struct Renderable {
 struct LeftMover {}
 
 struct State {
-    ecs: World
+    ecs: World,
 }
 
 impl GameState for State {
     fn tick(&mut self, ctx : &mut Rltk) {
         ctx.cls();
         //ctx.print(1, 1, "Hello Rust World");
+
+        self.run_systems();
+
         let positions = self.ecs.read_storage::<Position>();
         let renderables = self.ecs.read_storage::<Renderable>();
 
@@ -90,7 +93,7 @@ fn main() -> rltk::BError {
             fg: RGB::named(rltk::RED),
             bg: RGB::named(rltk::BLACK),
         })
-        //.with(LeftMover{}),
+        .with(LeftMover{})
         .build();
     }
 
